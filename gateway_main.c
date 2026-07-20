@@ -1931,6 +1931,10 @@ static void lcd_print_line(
     lcd_send_string(line);
 }
 
+void EXTI0_IRQHandler(void)
+{
+    HAL_GPIO_EXTI_IRQHandler(ESTOP_PIN);
+}
 /* USER CODE END 4 */
 
 /* Khối xử lý lỗi hệ thống */
