@@ -15,7 +15,7 @@
 
 **Cấu hình Node**
 - ADC1 : Đọc tín hiệu tương tự phục vụ đo điện áp pin.
-- PB
+- PA4, PA5: GPIO Input đọc dữ liệu từ cảm biến DHT12 và cảm biến nhiệt độ
 - I2C1 : Giao tiếp với màn hình LCD I2C.  
 - TIM2 : Tạo xung PWM để điều khiển công suất máy bơm.  
 - USART1 : Thực hiện truyền và nhận dữ liệu giữa STM32 và module LoRa.  
