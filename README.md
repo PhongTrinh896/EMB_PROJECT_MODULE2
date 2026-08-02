@@ -1,12 +1,18 @@
-# EMB_PROJECT_MODULE2
-Bài tập này chú trọng vào quá trình giao tiếp giữa Node và Gateway. Node có nhiệm vụ thu thập thông tin vầ độ ẩm và nhiệt độ môi trường thông qua cảm biến, hiển thị lên màn hình LCD, điều khiển động cơ máy tưới nước, đồng thời gửi thông tin tới Gateway thông qua LoRa. Gateway có nhiệm vụ thu thập thông tin từ Node, hiển thị lên màn hình LCD, gửi thông tin điều khiển động cơ máy bơm nước (nếu càn) và cập nhật thông tin lên máy tính thông qua giao thức UART, hiển thị trên Hercules hoặc Cutecom.  
+# EMB_PROJECT_MODULE2  
   
-*Flowchart của hệ thống*  
+**Bài tập này chú trọng vào quá trình giao tiếp giữa Node và Gateway. Node có nhiệm vụ thu thập thông tin vầ độ ẩm và nhiệt độ môi trường thông qua cảm biến, hiển thị lên màn hình LCD, điều khiển động cơ máy tưới nước, đồng thời gửi thông tin tới Gateway thông qua LoRa. Gateway có nhiệm vụ thu thập thông tin từ Node, hiển thị lên màn hình LCD, gửi thông tin điều khiển động cơ máy bơm nước (nếu càn) và cập nhật thông tin lên máy tính thông qua giao thức UART, hiển thị trên Hercules hoặc Cutecom.**  
+  
+**Flowchart của hệ thống**  
   
 <img width="878" height="673" alt="Screenshot from 2026-08-02 17-49-32" src="https://github.com/user-attachments/assets/41273dcf-ed91-407e-b1e8-b963252f695f" />
+
+**Cấu hình LoRa**  
+- Baud rate: 115200
+- ID: 1111
+- Channel: 5
   
-*Cấu trúc gói tin*  
-- Cấu trúc gói tin truyền qua LoRa được thống nhất giữa Node và Gateway gồm 8 byte thông tin:
+**Cấu trúc gói tin**  
+* Cấu trúc gói tin truyền qua LoRa được thống nhất từ Node sang Gateway gồm 8 byte thông tin lần lượt như sau: 
   
 | Byte | Ý nghĩa      |
 | ---- | ------------ |
@@ -19,3 +25,7 @@ Bài tập này chú trọng vào quá trình giao tiếp giữa Node và Gatewa
 | 6    | Checksum XOR |
 | 7    | 0xBB         |  
 
+- Trong đó, các byte thông tin về độ ẩm, nhiệt độ, tình trạng pin của 2 cảm biến, tình trạng máy bơm nước, byte checksum kiểm tra tính toàn vẹn của gói tin đều được thống nhất định dạng uint16_t. Byte Checksum được sử dụng phương thức tính XOR của từng thông tin (khả năng thấp có sự trùng hợp gây lỗi byte này mà Gateway vẫn đọc gói tin là hợp lệ).   
+- Hai byte đánh dấu đầu cuối gói tin được thống nhất trong cả Gateway và Node là 0xAA và 0xBB. Hai giá trị này khả năng thấp sẽ trùng với thông tin từ các cảm biến, tuy nhiên vẫn cần có phương án đảm bảo an toàn thêm.  
+
+* Cấu trúc gói tin truyền qua LoRa được thống nhất từ Gateway sang Node như sau:
