@@ -14,7 +14,8 @@
 - PB0: GPIO External Interrupt – nút dừng khẩn cấp, sử dụng ngắt EXTI0.    
 
 **Cấu hình Node**
-- ADC1 : Đọc tín hiệu tương tự phục vụ đo điện áp pin.  
+- ADC1 : Đọc tín hiệu tương tự phục vụ đo điện áp pin.
+- PB
 - I2C1 : Giao tiếp với màn hình LCD I2C.  
 - TIM2 : Tạo xung PWM để điều khiển công suất máy bơm.  
 - USART1 : Thực hiện truyền và nhận dữ liệu giữa STM32 và module LoRa.  
@@ -49,4 +50,10 @@
 | 1    | Điều khiển motor    |
 | 2    | 0xBB                |
 
-- Byte điều khiển motor là tín hiệu PWM (0 - 10230) gửi sang Node để điều khiển mức cho động cơ máy bơm nước tưới cây.  
+- Byte điều khiển motor là tín hiệu PWM (0 - 10230) gửi sang Node để điều khiển mức cho động cơ máy bơm nước tưới cây. Gói tin này được gửi khi tình trạng độ ẩm dưới 1 ngưỡng an toàn (được quy định sẵn bên trong code) nhằm mở van máy bơm tưới nước cho cây.  
+
+**Đánh giá một số hạn chế của hệ thống**  
+- Checksum XOR chưa đảm bảo đủ tính an toàn cho gói tin, có thể thay bằng CRC-8 hoặc CRC-16.  
+- Khả năng mở rộng chưa có (một Gateway nhiều Node,...).  
+- Chưa có watchdog (IWDG) để tự phục hồi khi treo.    
+- Chưa có cờ trạng thái cảm biến (sensor status/error flags) để thay vì gửi 0xFF khiến Gateway loại bỏ cả khung dữ liệu.  
